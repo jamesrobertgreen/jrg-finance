@@ -1,12 +1,9 @@
-<button onclick="openModal()">open</button>
+<div class="btn btn-primary" onclick="openModal()">open</div>
+<div class="btn btn-danger" onclick="closeModal()">close</div>
+<p>Test1</p>
+<div data-sly-use.prices="uk.co.greenjam.jrgfinance.core.models.StockPriceModel">
 
+            <p>Test ${prices.stockPrice}</p>
 
-<div id="myModal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
-    </div>
 
 </div>

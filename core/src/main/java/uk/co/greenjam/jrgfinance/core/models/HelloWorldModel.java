@@ -23,9 +23,12 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.settings.SlingSettingsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Model(adaptables=Resource.class)
 public class HelloWorldModel {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Inject
     private SlingSettingsService settings;
@@ -40,6 +43,7 @@ public class HelloWorldModel {
         message = "\tHello World!\n";
         message += "\tThis is instance: " + settings.getSlingId() + "\n";
         message += "\tResource type is: " + resourceType + "\n";
+        logger.info(message);
     }
 
     public String getMessage() {

@@ -5,7 +5,7 @@
     jcr:title="jrg-finance Content Page"
     allowedPaths="[/content/jrg-finance/.+]"
     ranking="{Long}100">
-    <jcr:content
+    <jcr:content cq:designPath="/etc/designs/jrg-finance"
         jcr:primaryType="cq:PageContent"
         sling:resourceType="jrg-finance/components/structure/page">
         <header jcr:primaryType="nt:unstructured"
