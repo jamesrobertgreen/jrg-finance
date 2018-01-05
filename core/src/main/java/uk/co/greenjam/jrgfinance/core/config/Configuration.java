@@ -9,7 +9,7 @@ import org.osgi.service.metatype.annotations.Option;
 @ObjectClassDefinition(name = "JRG Finance Services")
 public @interface Configuration {
 
-    String DEFAULT_API_URL = "https://spreadsheets.google.com/feeds/list/0AhySzEddwIC1dEtpWF9hQUhCWURZNEViUmpUeVgwdGc/1/public/basic?alt=json&sq=symbol=";
+    String DEFAULT_API_URL = "https://spreadsheets.google.com/feeds/list/0AhySzEddwIC1dEtpWF9hQUhCWURZNEViUmpUeVgwdGc/1/public/basic?alt=json&sq=symbol=BP.L";
 
     @AttributeDefinition(
             name = "Stock Price API URL",
