@@ -3,6 +3,9 @@ package uk.co.greenjam.jrgfinance.core.services.impl;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.*;
 import org.osgi.service.metatype.annotations.Designate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.greenjam.jrgfinance.core.config.Configuration;
 import uk.co.greenjam.jrgfinance.core.services.StockPriceService;
 
 
@@ -15,25 +18,19 @@ import uk.co.greenjam.jrgfinance.core.services.StockPriceService;
         ocd = Configuration.class
 )
 public class StockPriceServiceImpl implements StockPriceService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Reference
     private ResourceResolverFactory resolverFactory;
 
-    private double price;
     private String apiUrl;
-
-//    @Override
-//    public String getSettings() {
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("Stock Price Service:\n");
-//        sb.append("API URL: " + apiUrl );
-//
-//        return sb.toString();
-//    }
+    // Price to be share across all instances
+    private static double price;
 
     @Activate
     @Modified
     protected final void activate(Configuration config) {
+        logger.info("Stock Price Service Activate");
         apiUrl = config.stockprice_apiurl_string();
         // Although this will be called from a scheduled task, we want to start with a value
         updatePrice();
@@ -51,6 +48,7 @@ public class StockPriceServiceImpl implements StockPriceService {
     @Override
     public void updatePrice() {
         // TODO add code to retrieve the price from the apiURL
+        logger.info("Updating stock price" + new java.util.Date());
         price = 123.0;
     }
 }
