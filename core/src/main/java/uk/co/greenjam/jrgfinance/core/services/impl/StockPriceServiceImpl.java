@@ -48,7 +48,7 @@ public class StockPriceServiceImpl implements StockPriceService {
     @Override
     public void updatePrice() {
         // TODO add code to retrieve the price from the apiURL
-        logger.info("Updating stock price" + new java.util.Date());
+        logger.info("Updating stock price " + new java.util.Date());
         price = 123.0;
     }
 }

@@ -19,8 +19,7 @@ public @interface Configuration {
     String stockprice_apiurl_string() default DEFAULT_API_URL;
 
     @AttributeDefinition(name = "Cron-job expression")
-//    String scheduler_expression() default "0 0 9 * * ?";
-    String scheduler_expression() default "*/30 * * * * ?";
+    String scheduler_expression() default "0 0 9 ? * * *"; // Every day at 9am
 
     @AttributeDefinition(name = "Concurrent task",
             description = "Whether or not to schedule this task concurrently")
