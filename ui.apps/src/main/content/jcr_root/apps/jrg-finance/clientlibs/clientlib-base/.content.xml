@@ -3,4 +3,4 @@
     jcr:primaryType="cq:ClientLibraryFolder"
     allowProxy="{Boolean}true"
     categories="[jrg-finance.base]"
-    embed="[core.wcm.components.image.v1,core.wcm.components.breadcrumb.v1,core.wcm.components.form.container.v1,core.wcm.components.form.text.v1,core.wcm.components.list.v1,jrg-finance.breadcrumb,jrg-finance.components]"/>
+    embed="[jquery,core.wcm.components.image.v1,core.wcm.components.breadcrumb.v1,core.wcm.components.form.container.v1,core.wcm.components.form.text.v1,core.wcm.components.list.v1,jrg-finance.breadcrumb,jrg-finance.components]"/>

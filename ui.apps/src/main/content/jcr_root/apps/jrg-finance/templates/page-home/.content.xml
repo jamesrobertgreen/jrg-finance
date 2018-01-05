@@ -10,6 +10,8 @@
         sling:resourceType="jrg-finance/components/structure/page">
         <header jcr:primaryType="nt:unstructured"
                 sling:resourceType="jrg-finance/components/structure/header"/>
+        <modal jcr:primaryType="nt:unstructured"
+                sling:resourceType="jrg-finance/components/structure/modal"/>
         <content jcr:primaryType="nt:unstructured"
                  sling:resourceType="wcm/foundation/components/parsys"/>
     </jcr:content>
