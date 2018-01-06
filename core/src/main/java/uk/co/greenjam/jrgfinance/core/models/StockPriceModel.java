@@ -32,7 +32,7 @@ public class StockPriceModel {
     protected void init() {
         logger.info("StockPriceModel init");
         stockPriceService.getPrice();
-        stockPrice = "Price is " + Double.toString(stockPriceService.getPrice());
+        stockPrice = stockPriceService.getPrice();
         logger.info(stockPrice);
     }
 

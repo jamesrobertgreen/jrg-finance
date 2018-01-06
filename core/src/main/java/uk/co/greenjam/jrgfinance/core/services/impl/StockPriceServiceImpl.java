@@ -35,7 +35,8 @@ public class StockPriceServiceImpl implements StockPriceService {
 
     private String apiUrl;
     // Price to be share across all instances
-    private static double price;
+    private static String price;
+    private static int status;
 
     @Activate
     @Modified
@@ -51,16 +52,100 @@ public class StockPriceServiceImpl implements StockPriceService {
     }
 
     @Override
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
+    /**
+     * Update the price using the api url specified on the osgi configuration
+     */
     @Override
     public void updatePrice() {
         // TODO add code to retrieve the price from the apiURL
-        logger.info("Updating stock price " + new java.util.Date());
+        logger.info("Updating stock price ");
+        URL url = createConnection(apiUrl);
 
-        // Set the url for the connection
+        HttpURLConnection con = openConnection(url);
+
+        if ( getStatus(con) == 200 ){
+            String response = getResponse(con);
+            StockPriceResponse stockPriceResponse = convertResponse(response);
+//            price = stockPriceResponse.getPrice();
+        }
+
+
+    }
+
+    private StockPriceResponse convertResponse(String json) {
+        Gson gson = new Gson();
+        StockPriceResponse resp = gson.fromJson(json, StockPriceResponse.class);
+        logger.info("GSON response version = " + resp.getVersion());
+        return resp;
+    }
+
+    private String getResponse(HttpURLConnection con) {
+        BufferedReader in = null;
+        StringBuffer content = null;
+        String response = null;
+        try {
+            in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (content!= null) {
+            response = content.toString();
+            logger.info("Respsonse read: " + response);
+        }
+        return response;
+    }
+
+    /**
+     * @param con
+     * @return int status e.g. 200
+     */
+    private int getStatus(HttpURLConnection con) {
+        int status = 0;
+        try {
+            status = con.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+
+    /**
+     * @param url
+     * @return HttpURLConnection
+     */
+    private HttpURLConnection openConnection(URL url) {
+        // Open the connection
+        HttpURLConnection con = null;
+        try {
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
+        } catch (IOException e) {
+            logger.error("Unable to connect to: " + apiUrl );
+            e.printStackTrace();
+        }
+        return con;
+    }
+
+
+    /**
+     * @param apiUrl
+     * @return URL for the connection
+     */
+    private URL createConnection(String apiUrl) {
         URL url = null;
         try {
             url = new URL(apiUrl);
@@ -68,56 +153,8 @@ public class StockPriceServiceImpl implements StockPriceService {
             logger.error("Malformed URL configured: " + apiUrl );
             e.printStackTrace();
         }
-
-        // Open the connection
-        HttpURLConnection con = null;
-        try {
-            con = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            logger.error("Unable to connect to: " + apiUrl );
-            e.printStackTrace();
-        }
-        try {
-            con.setRequestMethod("GET");
-            con.setConnectTimeout(5000);
-            con.setReadTimeout(5000);
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-
-        // Get the status
-        int status = 0;
-        try {
-            status = con.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(status == 200){
-            BufferedReader in = null;
-            StringBuffer content = null;
-            try {
-                in = new BufferedReader(
-                        new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                content = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (content!= null){
-                String response = content.toString();
-                logger.info("READ this " + response);
-
-                Gson gson = new Gson();
-                String json = response;
-                StockPriceResponse resp = gson.fromJson(json, StockPriceResponse.class);
-                logger.info("GSON response version = " + resp.getVersion());
-            }
-
-        }
-
+        return url;
     }
+
+
 }
