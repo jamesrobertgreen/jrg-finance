@@ -32,7 +32,7 @@ public class StockPriceServiceImpl implements StockPriceService {
     @Reference
     private ResourceResolverFactory resolverFactory;
 
-    private String apiUrl;
+    private static String apiUrl;
     // Price to be shared across all instances
     private static String price;
 
@@ -42,7 +42,7 @@ public class StockPriceServiceImpl implements StockPriceService {
     @Modified
     protected final void activate(Configuration config) {
         logger.info("Stock Price Service Activate");
-        apiUrl = config.stockprice_apiurl_string();
+        this.apiUrl = config.stockprice_apiurl_string();
         // Although this will be called from a scheduled task, we want to start with a value
         updatePrice();
     }

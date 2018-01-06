@@ -10,10 +10,11 @@ public class StockPriceResponse {
     private class Feed {
         private ArrayList<Entry> entry;
     }
+
     private class Entry{
         private Content content;
-
     }
+
     private class Content{
         private String $t;
     }
@@ -35,6 +36,7 @@ public class StockPriceResponse {
     }
 
     public String getPrice() {
-        return feed.entry.get(0).content.$t;
+        Entry entry = feed.entry.get(0);
+        return entry.content.$t;
     }
 }
