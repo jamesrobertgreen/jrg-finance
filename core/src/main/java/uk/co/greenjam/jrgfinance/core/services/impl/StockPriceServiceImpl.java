@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 
@@ -34,9 +33,10 @@ public class StockPriceServiceImpl implements StockPriceService {
     private ResourceResolverFactory resolverFactory;
 
     private String apiUrl;
-    // Price to be share across all instances
+    // Price to be shared across all instances
     private static String price;
-    private static int status;
+
+    private static final String PRICES_UNAVAILABLE = "Prices are currently unavailable.";
 
     @Activate
     @Modified
@@ -51,6 +51,9 @@ public class StockPriceServiceImpl implements StockPriceService {
     protected void deactivate() {
     }
 
+    /**
+     * @return String containing the latest price and additional information
+     */
     @Override
     public String getPrice() {
         return price;
@@ -61,25 +64,42 @@ public class StockPriceServiceImpl implements StockPriceService {
      */
     @Override
     public void updatePrice() {
-        // TODO add code to retrieve the price from the apiURL
         logger.info("Updating stock price ");
         URL url = createConnection(apiUrl);
-
-        HttpURLConnection con = openConnection(url);
-
-        if ( getStatus(con) == 200 ){
-            String response = getResponse(con);
-            StockPriceResponse stockPriceResponse = convertResponse(response);
-//            price = stockPriceResponse.getPrice();
+        if (url == null){
+            return;
         }
 
-
+        HttpURLConnection con = openConnection(url);
+        if (con == null){
+            return;
+        }
+        if ( getStatus(con) == 200 ){
+            String response = getResponse(con);
+            if (response != null && ! response.equals("")) {
+                StockPriceResponse stockPriceResponse = convertResponse(response);
+                if (stockPriceResponse != null){
+                    // Update the price
+                    price = stockPriceResponse.getPrice();
+                }
+                else {
+                    updateFailed();
+                }
+            }
+            else
+            {
+                updateFailed();
+            }
+        }
+        else {
+            updateFailed();
+        }
     }
 
     private StockPriceResponse convertResponse(String json) {
+        StockPriceResponse resp = null;
         Gson gson = new Gson();
-        StockPriceResponse resp = gson.fromJson(json, StockPriceResponse.class);
-        logger.info("GSON response version = " + resp.getVersion());
+        resp = gson.fromJson(json, StockPriceResponse.class);
         return resp;
     }
 
@@ -101,32 +121,24 @@ public class StockPriceServiceImpl implements StockPriceService {
         }
         if (content!= null) {
             response = content.toString();
-            logger.info("Respsonse read: " + response);
+            logger.info("Response read: " + response);
         }
         return response;
     }
 
-    /**
-     * @param con
-     * @return int status e.g. 200
-     */
     private int getStatus(HttpURLConnection con) {
         int status = 0;
         try {
             status = con.getResponseCode();
         } catch (IOException e) {
+            logger.error("Failed to read status");
+            updateFailed();
             e.printStackTrace();
         }
         return status;
     }
 
-
-    /**
-     * @param url
-     * @return HttpURLConnection
-     */
     private HttpURLConnection openConnection(URL url) {
-        // Open the connection
         HttpURLConnection con = null;
         try {
             con = (HttpURLConnection) url.openConnection();
@@ -135,25 +147,27 @@ public class StockPriceServiceImpl implements StockPriceService {
             con.setReadTimeout(5000);
         } catch (IOException e) {
             logger.error("Unable to connect to: " + apiUrl );
+            updateFailed();
             e.printStackTrace();
         }
         return con;
     }
 
-
-    /**
-     * @param apiUrl
-     * @return URL for the connection
-     */
     private URL createConnection(String apiUrl) {
         URL url = null;
         try {
             url = new URL(apiUrl);
         } catch (MalformedURLException e) {
             logger.error("Malformed URL configured: " + apiUrl );
+            updateFailed();
             e.printStackTrace();
         }
         return url;
+    }
+
+    private void updateFailed(){
+        // if the update failed, update the price accordingly
+        price = PRICES_UNAVAILABLE;
     }
 
 

@@ -31,7 +31,6 @@ public class StockPriceModel {
     @PostConstruct
     protected void init() {
         logger.info("StockPriceModel init");
-        stockPriceService.getPrice();
         stockPrice = stockPriceService.getPrice();
         logger.info(stockPrice);
     }
