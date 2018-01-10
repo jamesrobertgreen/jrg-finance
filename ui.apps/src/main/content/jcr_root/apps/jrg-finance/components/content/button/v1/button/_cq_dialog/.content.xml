@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Properties"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <column
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                    <text
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="Button Text"
+                        name="./text"/>
+                    <position
+                            jcr:primaryType="cq:Widget"
+                            sling:resourceType="granite/ui/components/foundation/form/select"
+                            fieldLabel="Position"
+                            name="./position"
+                            emptyText = "Select"
+                            emptyOption = "true"
+                            ordered = "false">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <left
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Position to the left"
+                                    value="btn-left"/>
+                            <centre
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Position in the centre"
+                                    value="btn-centre"/>
+                            <right
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Position to the right"
+                                    value="btn-right"/>
+                        </items>
+                    </position>
+                    <link
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+                            fieldDescription="Choose a page in the repository or type the external url."
+                            fieldLabel="Link"
+                            name="./link"
+                            rootPath="/content"/>
+                </items>
+            </column>
+        </items>
+    </content>
+</jcr:root>
