@@ -4,7 +4,7 @@
     <jcr:content
         cq:designPath="/etc/designs/fd/af/default"
         cq:deviceGroups="/etc/mobile/groups/responsive"
-        cq:lastModified="{Date}2018-01-10T23:07:45.905Z"
+        cq:lastModified="{Date}2018-01-10T23:13:32.246Z"
         cq:lastModifiedBy="admin"
         cq:template="/libs/fd/af/templates/blankTemplate2"
         jcr:language="en"
@@ -13,17 +13,28 @@
         sling:resourceType="fd/af/components/page2/afStaticTemplatePage">
         <guideContainer
             fd:version="1.1"
+            jcr:lastModified="{Date}2018-01-10T23:13:32.241Z"
+            jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
-            sling:resourceType="fd/af/components/guideContainer"
-            actionType="fd/fp/components/actions/portalsubmit"
+            sling:resourceType="fd/af/components/guideContainerWrapper"
+            actionType="fd/af/components/guidesubmittype/restendpoint"
+            autoSaveStrategyType="fd/fp/components/actions/autosave/timebased"
+            disableSwipeGesture="{Boolean}false"
             dorType="none"
+            enableRestEndpointPost="false"
             guideCss="guideContainer"
             guideNodeClass="guideContainerNode"
             name="guide1"
-            themeRef="/content/dam/formsanddocuments-themes/themeLibrary/basicTheme">
+            restEndpointPostUrl="/bin/formSubmit"
+            textIsRich="true"
+            thankYouMessage="Thank you for submitting the form."
+            thankYouOption="page"
+            themeRef="/content/dam/formsanddocuments-themes/themeLibrary/basicTheme"
+            useExistingAF="false">
             <layout
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="fd/af/layouts/defaultGuideLayout"
+                mobileLayout="fd/af/layouts/mobile/step"
                 toolbarPosition="Bottom"/>
             <rootPanel
                 jcr:primaryType="nt:unstructured"
@@ -81,6 +92,21 @@
                         textIsRich="[true,true,true]"/>
                 </items>
             </rootPanel>
+            <autoSaveInfo
+                jcr:primaryType="nt:unstructured"
+                metadataselector="global"/>
+            <signerInfo
+                jcr:primaryType="nt:unstructured"
+                firstSignerFormFiller="false"
+                workflowType="SEQUENTIAL">
+                <signer0
+                    jcr:primaryType="nt:unstructured"
+                    countryCodeSource="form"
+                    emailSource="form"
+                    phoneSource="form"
+                    securityOption="NONE"
+                    signerTitle="Signer One"/>
+            </signerInfo>
         </guideContainer>
         <cq:responsive jcr:primaryType="nt:unstructured">
             <breakpoints jcr:primaryType="nt:unstructured">
