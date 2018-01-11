@@ -4,7 +4,7 @@
     <jcr:content
         cq:designPath="/etc/designs/fd/af/default"
         cq:deviceGroups="/etc/mobile/groups/responsive"
-        cq:lastModified="{Date}2018-01-10T23:13:32.246Z"
+        cq:lastModified="{Date}2018-01-10T23:19:26.263Z"
         cq:lastModifiedBy="admin"
         cq:template="/libs/fd/af/templates/blankTemplate2"
         jcr:language="en"
@@ -90,6 +90,22 @@
                         multiLine="true"
                         name="message"
                         textIsRich="[true,true,true]"/>
+                    <submit
+                        jcr:created="{Date}2018-01-10T23:19:26.260Z"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2018-01-10T23:19:26.260Z"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Submit"
+                        sling:resourceType="fd/af/components/actions/submit"
+                        dorExclusion="true"
+                        guideNodeClass="guideButton"
+                        name="submit1515626366297"
+                        type="submit">
+                        <fd:rules
+                            fd:click="[{&quot;nodeName&quot;:&quot;ROOT&quot;\,&quot;items&quot;:[{&quot;nodeName&quot;:&quot;STATEMENT&quot;\,&quot;choice&quot;:{&quot;nodeName&quot;:&quot;EVENT_SCRIPTS&quot;\,&quot;items&quot;:[{&quot;nodeName&quot;:&quot;EVENT_CONDITION&quot;\,&quot;choice&quot;:{&quot;nodeName&quot;:&quot;EVENT_AND_COMPARISON&quot;\,&quot;items&quot;:[{&quot;nodeName&quot;:&quot;COMPONENT&quot;\,&quot;value&quot;:{&quot;id&quot;:&quot;XX&quot;\,&quot;type&quot;:&quot;BUTTON&quot;\,&quot;name&quot;:&quot;XX&quot;}}\,{&quot;nodeName&quot;:&quot;EVENT_AND_COMPARISON_OPERATOR&quot;\,&quot;choice&quot;:{&quot;nodeName&quot;:&quot;is clicked&quot;\,&quot;value&quot;:null}}\,{&quot;nodeName&quot;:&quot;PRIMITIVE_EXPRESSION&quot;\,&quot;choice&quot;:null}]}\,&quot;nested&quot;:false}\,{&quot;nodeName&quot;:&quot;Then&quot;\,&quot;value&quot;:null}\,{&quot;nodeName&quot;:&quot;BLOCK_STATEMENTS&quot;\,&quot;items&quot;:[{&quot;nodeName&quot;:&quot;BLOCK_STATEMENT&quot;\,&quot;choice&quot;:{&quot;nodeName&quot;:&quot;SUBMIT_FORM&quot;\,&quot;items&quot;:[]}}]}]}}]\,&quot;isValid&quot;:true\,&quot;enabled&quot;:true\,&quot;version&quot;:1\,&quot;script&quot;:&quot;/**\\n\\n * This is a machine-generated code for the rule.\\n * If you modify it in the code editor\, you will not be able to view and edit the rule in the visual editor.\\n */\\n\\nguideBridge.submit();\\n\\n&quot;\,&quot;eventName&quot;:&quot;Click&quot;}]"
+                            jcr:primaryType="nt:unstructured"/>
+                    </submit>
                 </items>
             </rootPanel>
             <autoSaveInfo
