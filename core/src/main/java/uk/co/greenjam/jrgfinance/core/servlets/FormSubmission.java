@@ -18,7 +18,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import uk.co.greenjam.jrgfinance.core.config.Configuration;
 import uk.co.greenjam.jrgfinance.core.servlets.model.AfData;
-import uk.co.greenjam.jrgfinance.core.servlets.model.Contact;
+import uk.co.greenjam.jrgfinance.core.servlets.model.ObjectFactory;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -67,20 +67,19 @@ public class FormSubmission extends SlingAllMethodsServlet{
         }
 
         JAXBContext jaxbContext = null;
-        Contact contact = null;
+        AfData afData = null;
 
         try {
-            jaxbContext = JAXBContext.newInstance(Contact.class);
+            jaxbContext = JAXBContext.newInstance(AfData.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            contact = (Contact) jaxbUnmarshaller.unmarshal(xmlData);
+            afData = (AfData) jaxbUnmarshaller.unmarshal(xmlData);
 
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-//        logger.info("Name = " + afData.getName());
-//        logger.info("Email = " + afData.getEmailAddress());
-//        logger.info("Message = " + afData.getMessage());
-
+        logger.info("Name = " + afData.getAfUnboundData().getData().getName());
+        logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
+        logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
 
     }
 
