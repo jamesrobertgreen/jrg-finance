@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/jrg-finance"
+        cq:lastModified="{Date}2018-01-14T22:52:35.386Z"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/jrg-finance/templates/page-content"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Contact Us"
+        sling:resourceType="jrg-finance/components/structure/page">
+        <header
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="jrg-finance/components/structure/header"/>
+        <content
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/parsys">
+            <aemform
+                jcr:created="{Date}2018-01-14T22:49:36.283Z"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-01-14T22:49:36.283Z"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="fd/af/components/aemform"
+                formType="adaptiveForm"
+                thankyouConfig="message"/>
+        </content>
+    </jcr:content>
+</jcr:root>
