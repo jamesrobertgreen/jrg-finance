@@ -11,14 +11,9 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import uk.co.greenjam.jrgfinance.core.config.Configuration;
 import uk.co.greenjam.jrgfinance.core.servlets.model.AfData;
-import uk.co.greenjam.jrgfinance.core.servlets.model.ObjectFactory;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -30,7 +25,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 
 
 @Component(service=Servlet.class,
@@ -50,22 +44,35 @@ public class FormSubmission extends SlingAllMethodsServlet{
 
         RequestParameterMap requestParameterMap = req.getRequestParameterMap();
         RequestParameter dataXml = requestParameterMap.getValue("dataXml");
-        DocumentBuilder builder = null;
         String xmlString = dataXml.toString();
 
-        Element xmlData = null;
-        try {
-            xmlData =  DocumentBuilderFactory
-                    .newInstance()
-                    .newDocumentBuilder()
-                    .parse(new ByteArrayInputStream(xmlString.getBytes()))
-                    .getDocumentElement();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+
+        // Convert string to XML Element
+        Element xmlData = createXMLElement(xmlString);
+        if (xmlData == null){
+            // TODO write error
+            return;
+        }
+        else {
+            // Convert xml to afData pojo
+            AfData afData = convertXMLtoPojo(xmlData);
+            if(afData == null) {
+                // TODO write error
+                return;
+            }
+            else {
+                logger.info("Name = " + afData.getAfUnboundData().getData().getName());
+                logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
+                logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
+
+            }
+
         }
 
+
+    }
+
+    private AfData convertXMLtoPojo(Element xmlData) {
         JAXBContext jaxbContext = null;
         AfData afData = null;
 
@@ -77,10 +84,26 @@ public class FormSubmission extends SlingAllMethodsServlet{
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        logger.info("Name = " + afData.getAfUnboundData().getData().getName());
-        logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
-        logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
+        return afData;
 
+    }
+
+    private Element createXMLElement(String xmlString) {
+        Element xmlData = null;
+        try {
+            xmlData =  DocumentBuilderFactory
+                    .newInstance()
+                    .newDocumentBuilder()
+                    .parse(new ByteArrayInputStream(xmlString.getBytes()))
+                    .getDocumentElement();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return xmlData;
     }
 
 
