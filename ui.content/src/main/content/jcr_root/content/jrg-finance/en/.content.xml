@@ -7,7 +7,7 @@
         cq:template="/apps/jrg-finance/templates/page-home"
         jcr:primaryType="cq:PageContent"
         jcr:title="en"
-        sling:resourceType="jrg-finance/components/structure/page">
+        sling:resourceType="jrg-finance/components/structure/page-home">
         <header
             jcr:primaryType="nt:unstructured"
             sling:resourceType="jrg-finance/components/structure/header"/>
