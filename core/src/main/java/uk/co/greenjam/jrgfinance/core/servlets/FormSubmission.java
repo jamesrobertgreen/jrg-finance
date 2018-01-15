@@ -13,8 +13,11 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+import uk.co.greenjam.jrgfinance.core.services.PDFGenerator;
+import uk.co.greenjam.jrgfinance.core.services.impl.PDFGeneratorImpl;
 import uk.co.greenjam.jrgfinance.core.servlets.model.AfData;
 
+import javax.inject.Inject;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.xml.bind.JAXBContext;
@@ -36,6 +39,9 @@ import java.io.IOException;
 public class FormSubmission extends SlingAllMethodsServlet{
     private static final long serialVersionUid = 1L;
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FormSubmission.class);
+
+    private PDFGeneratorImpl pdfGenerator = null;
+
 
     @Override
     protected void doPost(final SlingHttpServletRequest req,
@@ -64,7 +70,8 @@ public class FormSubmission extends SlingAllMethodsServlet{
                 logger.info("Name = " + afData.getAfUnboundData().getData().getName());
                 logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
                 logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
-
+                pdfGenerator = new PDFGeneratorImpl();
+                pdfGenerator.generatePDF("","","");
             }
 
         }
