@@ -1,30 +1,30 @@
-package uk.co.greenjam.jrgfinance.core.services.impl;
+package uk.co.greenjam.jrgfinance.core.servlets;
 
-import com.adobe.aemfd.docmanager.Document;
-import com.adobe.fd.forms.api.FormsService;
 import com.adobe.fd.output.api.OutputService;
 import com.adobe.fd.output.api.OutputServiceException;
-import com.adobe.fd.output.api.PDFOutputOptions;
-import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.greenjam.jrgfinance.core.services.PDFGenerator;
-
 import java.io.*;
 import java.net.UnknownHostException;
+import javax.servlet.Servlet;
+import com.adobe.fd.output.api.PDFOutputOptions;
+import com.adobe.aemfd.docmanager.Document;
 
 @Component(
-        immediate = true,
-        service = PDFGenerator.class,
-        configurationPid = "uk.co.greenjam.jrgfinance.core.services.impl.PDFGeneratorImpl"
+        service = Servlet.class,
+        property = {
+                "sling.servlet.paths=/bin/testpdf",
+                "sling.auth.requirements=-/bin/testpdf"
+        }
 )
-public class PDFGeneratorImpl implements PDFGenerator {
+public class TestPDFServlet extends SlingAllMethodsServlet {
 
     private static final String PATH_TO_XDP = "/Users/Jim/contact.xdp";
     private static final String PATH_TO_XML = "/Users/Jim/contact.xml";
@@ -32,16 +32,19 @@ public class PDFGeneratorImpl implements PDFGenerator {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
     @Reference
     private OutputService outputService;
 
-    @Override
-    public void generatePDF(String template, String xmlString, String saveLocation) {
-        logger.info("Generate PDF!");
+    @Activate
+    protected void activate(ComponentContext context) throws UnknownHostException {
+        logger.info("Activating " + this.getClass());
+    }
 
+    @Override
+    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException{
 
         Document doc=null;
+
         try {
 
             PDFOutputOptions option = new PDFOutputOptions();
@@ -68,6 +71,5 @@ public class PDFGeneratorImpl implements PDFGenerator {
             doc.dispose();
         }
     }
-
 
 }
