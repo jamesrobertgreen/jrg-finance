@@ -5,7 +5,7 @@
     type="lcFolder">
     <jcr:content
         jcr:primaryType="nt:unstructured"
-        jcr:title="jrg-finance">
+        jcr:title="templates">
         <folderThumbnail/>
     </jcr:content>
 </jcr:root>

@@ -114,5 +114,11 @@
             <artifactId>org.apache.felix.scr.annotations</artifactId>
             <version>1.9.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.adobe.aemfd/aemfd-client-sdk -->
+        <dependency>
+            <groupId>com.adobe.aemfd</groupId>
+            <artifactId>aemfd-client-sdk</artifactId>
+            <version>6.3.0</version>
+        </dependency>
     </dependencies>
 </project>
