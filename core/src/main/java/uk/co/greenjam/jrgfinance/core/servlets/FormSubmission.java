@@ -9,7 +9,10 @@ import org.apache.sling.api.request.RequestParameterMap;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.framework.Constants;
+import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -28,6 +31,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 
 @Component(service=Servlet.class,
@@ -40,8 +44,13 @@ public class FormSubmission extends SlingAllMethodsServlet{
     private static final long serialVersionUid = 1L;
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FormSubmission.class);
 
-    private PDFGeneratorImpl pdfGenerator = null;
+    @Reference
+    private PDFGenerator pdfGenerator;
 
+    @Activate
+    protected void activate(ComponentContext context) throws UnknownHostException {
+        logger.info("Activating " + this.getClass());
+    }
 
     @Override
     protected void doPost(final SlingHttpServletRequest req,
@@ -70,7 +79,7 @@ public class FormSubmission extends SlingAllMethodsServlet{
                 logger.info("Name = " + afData.getAfUnboundData().getData().getName());
                 logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
                 logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
-                pdfGenerator = new PDFGeneratorImpl();
+
                 pdfGenerator.generatePDF("","","");
             }
 
