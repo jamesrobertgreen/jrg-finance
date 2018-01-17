@@ -79,13 +79,21 @@ public class FormSubmission extends SlingAllMethodsServlet{
                 logger.info("Name = " + afData.getAfUnboundData().getData().getName());
                 logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
                 logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
-
-                pdfGenerator.generatePDF("","","");
+                String inputXML = creatInputXML(afData);
+                pdfGenerator.generatePDF("",inputXML,"");
             }
 
         }
 
 
+    }
+
+    private String creatInputXML(AfData afData) {
+        return "<input>" +
+                "<name>" + afData.getAfUnboundData().getData().getName() +  "</name>" +
+                "<emailAddress>" + afData.getAfUnboundData().getData().getEmailAddress() +  "</emailAddress>" +
+                "<message>" + afData.getAfUnboundData().getData().getMessage() +  "</message>" +
+                "</input>";
     }
 
     private AfData convertXMLtoPojo(Element xmlData) {

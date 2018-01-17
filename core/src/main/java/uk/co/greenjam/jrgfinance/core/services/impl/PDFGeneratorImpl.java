@@ -27,7 +27,6 @@ import java.net.UnknownHostException;
 public class PDFGeneratorImpl implements PDFGenerator {
 
     private static final String PATH_TO_XDP = "/Users/Jim/contact.xdp";
-    private static final String PATH_TO_XML = "/Users/Jim/contact.xml";
     private static final String OUTPUT_FOLDER = "/Users/Jim";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -48,11 +47,9 @@ public class PDFGeneratorImpl implements PDFGenerator {
 
             option.setAcrobatVersion(com.adobe.fd.output.api.AcrobatVersion.Acrobat_11);
 
-            InputStream inputXMLStream = new FileInputStream(PATH_TO_XML);
-
             InputStream templateStream = new FileInputStream(PATH_TO_XDP);
 
-            doc = outputService.generatePDFOutput(new Document(templateStream),new Document(inputXMLStream),option);
+            doc = outputService.generatePDFOutput(new Document(templateStream),new Document(xmlString.getBytes()),option);
 
             File toSave = new File(OUTPUT_FOLDER,"contact.pdf");
 
