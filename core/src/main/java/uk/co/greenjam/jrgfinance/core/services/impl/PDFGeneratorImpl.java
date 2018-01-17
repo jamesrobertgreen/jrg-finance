@@ -14,8 +14,10 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.co.greenjam.jrgfinance.core.services.CRXUtilService;
 import uk.co.greenjam.jrgfinance.core.services.PDFGenerator;
 
+import javax.jcr.RepositoryException;
 import java.io.*;
 import java.net.UnknownHostException;
 
@@ -35,8 +37,11 @@ public class PDFGeneratorImpl implements PDFGenerator {
     @Reference
     private OutputService outputService;
 
+    @Reference
+    private CRXUtilService crxUtilService;
+
     @Override
-    public void generatePDF(String template, String xmlString, String saveLocation) {
+    public void generatePDF(String templateLocation, String xmlString, String saveLocation) {
         logger.info("Generate PDF!");
 
 
@@ -47,9 +52,9 @@ public class PDFGeneratorImpl implements PDFGenerator {
 
             option.setAcrobatVersion(com.adobe.fd.output.api.AcrobatVersion.Acrobat_11);
 
-            InputStream templateStream = new FileInputStream(PATH_TO_XDP);
+            Document xdpDoc = crxUtilService.retrieveDocumentFromCRXRepository(templateLocation);
 
-            doc = outputService.generatePDFOutput(new Document(templateStream),new Document(xmlString.getBytes()),option);
+            doc = outputService.generatePDFOutput( xdpDoc ,new Document(xmlString.getBytes()),option);
 
             File toSave = new File(OUTPUT_FOLDER,"contact.pdf");
 
@@ -61,10 +66,13 @@ public class PDFGeneratorImpl implements PDFGenerator {
             logger.error("Error", e);
         } catch (IOException e) {
             logger.error("Error", e);
-        }finally {
+        } catch (RepositoryException e) {
+            e.printStackTrace();
+        } finally {
             doc.dispose();
         }
     }
+
 
 
 }
