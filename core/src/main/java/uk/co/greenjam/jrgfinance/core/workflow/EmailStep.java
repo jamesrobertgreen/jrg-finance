@@ -1,5 +1,6 @@
 package uk.co.greenjam.jrgfinance.core.workflow;
 
+
 import com.adobe.granite.workflow.WorkflowException;
 import com.adobe.granite.workflow.WorkflowSession;
 import com.adobe.granite.workflow.exec.WorkItem;
@@ -15,25 +16,20 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(
-        immediate = true,
-        service = EmailStep.class,
-        configurationPid = "uk.co.greenjam.jrgfinance.core.workflow.impl.EmailStep"
-)
+@Component(service = WorkflowProcess.class, property = {"process.label=JRG Finance Test Email" })
 public class EmailStep implements WorkflowProcess
 {
+    /** Default log. */
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     //Inject a MessageGatewayService
     @Reference
     private MessageGatewayService messageGatewayService;
 
-    public void execute(WorkItem item, WorkflowSession wfsession,MetaDataMap args) throws WorkflowException {
+    public void execute(WorkItem item, WorkflowSession wfsession, MetaDataMap args) throws WorkflowException {
 
         try
         {
-            log.info("Email Step Executing");    //ensure that the execute method is invoked
-
             //Declare a MessageGateway service
             MessageGateway<Email> messageGateway;
 
@@ -44,9 +40,9 @@ public class EmailStep implements WorkflowProcess
             String emailToRecipients = "jrg-finance@mailinator.com";
 
             email.addTo(emailToRecipients);
-            email.setSubject("Email Step");
-            email.setFrom("jrg-finance@greenjam.co.uk");
-            email.setMsg("This message has been sent from a custom workflow");
+            email.setSubject("Email Workflow");
+            email.setFrom("JRG@jrgfinance.com");
+            email.setMsg("Email message from workflow");
 
             //Inject a MessageGateway Service and send the message
             messageGateway = messageGatewayService.getGateway(Email.class);
@@ -54,6 +50,7 @@ public class EmailStep implements WorkflowProcess
             // Check the logs to see that messageGateway is not null
             messageGateway.send((Email) email);
         } catch (EmailException e) {
+            log.error("Error creating email " + e.getMessage());
             e.printStackTrace();
         }
 

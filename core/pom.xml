@@ -39,7 +39,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Embed-Dependency>gson</Embed-Dependency>
+                        <Embed-Dependency>gson,commons-email</Embed-Dependency>
                         <!-- Import any version of javax.inject, to allow running on multiple versions of AEM -->
                         <Import-Package>javax.inject;version=0.0.0,*</Import-Package>
                         <Sling-Model-Packages>
@@ -113,6 +113,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.adobe.granite/com.adobe.granite.workflow.api -->
+        <dependency>
+            <groupId>com.adobe.granite</groupId>
+            <artifactId>com.adobe.granite.workflow.api</artifactId>
+            <version>1.0.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

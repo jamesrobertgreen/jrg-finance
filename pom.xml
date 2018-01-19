@@ -562,6 +562,13 @@
                 <artifactId>commons-email</artifactId>
                 <version>1.5</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.adobe.granite/com.adobe.granite.workflow.api -->
+            <dependency>
+                <groupId>com.adobe.granite</groupId>
+                <artifactId>com.adobe.granite.workflow.api</artifactId>
+                <version>1.0.2</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
