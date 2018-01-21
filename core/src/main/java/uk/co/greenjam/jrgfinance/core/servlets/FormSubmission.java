@@ -17,16 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import uk.co.greenjam.jrgfinance.core.services.PDFGenerator;
-import uk.co.greenjam.jrgfinance.core.services.impl.PDFGeneratorImpl;
 import uk.co.greenjam.jrgfinance.core.servlets.model.AfData;
 
-import javax.inject.Inject;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
@@ -44,7 +41,7 @@ public class FormSubmission extends SlingAllMethodsServlet{
     private static final long serialVersionUid = 1L;
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FormSubmission.class);
 
-    private final static String CONTACT_TEMPLATE = "/content/dam/formsanddocuments/jrg-finance/templates/contact.xdp";
+    private final static String CONTACT_TEMPLATE = "/content/dam/formsanddocuments/jrg-finance/templates/contact.xdp/jcr:content/renditions/original/jcr:content";
     @Reference
     private PDFGenerator pdfGenerator;
 

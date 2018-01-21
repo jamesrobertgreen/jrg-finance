@@ -1,25 +1,18 @@
 package uk.co.greenjam.jrgfinance.core.services.impl;
 
 import com.adobe.aemfd.docmanager.Document;
-import com.adobe.fd.forms.api.FormsService;
 import com.adobe.fd.output.api.OutputService;
 import com.adobe.fd.output.api.OutputServiceException;
 import com.adobe.fd.output.api.PDFOutputOptions;
-import org.apache.sling.api.resource.LoginException;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.osgi.service.component.ComponentContext;
-import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.greenjam.jrgfinance.core.services.CRXUtilService;
 import uk.co.greenjam.jrgfinance.core.services.PDFGenerator;
 
-import javax.jcr.RepositoryException;
-import java.io.*;
-import java.net.UnknownHostException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @Component(
         immediate = true,
@@ -37,9 +30,6 @@ public class PDFGeneratorImpl implements PDFGenerator {
     @Reference
     private OutputService outputService;
 
-    @Reference
-    private CRXUtilService crxUtilService;
-
     @Override
     public void generatePDF(String templateLocation, String xmlString, String saveLocation) {
         logger.info("Generate PDF!");
@@ -52,7 +42,8 @@ public class PDFGeneratorImpl implements PDFGenerator {
 
             option.setAcrobatVersion(com.adobe.fd.output.api.AcrobatVersion.Acrobat_11);
 
-            Document xdpDoc = crxUtilService.retrieveDocumentFromCRXRepository(templateLocation);
+            Document xdpDoc = new Document(templateLocation);
+
 
             doc = outputService.generatePDFOutput( xdpDoc ,new Document(xmlString.getBytes()),option);
 
@@ -66,8 +57,6 @@ public class PDFGeneratorImpl implements PDFGenerator {
             logger.error("Error", e);
         } catch (IOException e) {
             logger.error("Error", e);
-        } catch (RepositoryException e) {
-            e.printStackTrace();
         } finally {
             doc.dispose();
         }
