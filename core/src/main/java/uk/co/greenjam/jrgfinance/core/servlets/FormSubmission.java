@@ -41,7 +41,11 @@ public class FormSubmission extends SlingAllMethodsServlet{
     private static final long serialVersionUid = 1L;
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FormSubmission.class);
 
-    private final static String CONTACT_TEMPLATE = "/content/dam/formsanddocuments/jrg-finance/templates/contact.xdp/jcr:content/renditions/original/jcr:content";
+    private final static String TEMPLATE_BASE = "/content/dam/formsanddocuments/jrg-finance/templates/";
+    private final static String TEMPLATE_DATA = "/jcr:content/renditions/original/jcr:content";
+
+    private final static String CONTACT_TEMPLATE = TEMPLATE_BASE + "contact.xdp" + TEMPLATE_DATA;
+
     @Reference
     private PDFGenerator pdfGenerator;
 
