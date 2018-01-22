@@ -45,7 +45,7 @@ public class FormSubmission extends SlingAllMethodsServlet{
     private static final long serialVersionUid = 1L;
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FormSubmission.class);
 
-    private final static String UNBOUNDDATA_XPATH = "\"/afData/afUnboundData/*\"";
+    private final static String UNBOUNDDATA_XPATH = "/afData/afUnboundData/*";
 
     private final static String TEMPLATE_BASE = "/content/dam/formsanddocuments/jrg-finance/templates/";
     private final static String TEMPLATE_DATA = "/jcr:content/renditions/original/jcr:content";
@@ -97,7 +97,7 @@ public class FormSubmission extends SlingAllMethodsServlet{
         return doc;
     }
 
-    private static Node getXML(Document doc, String xpathStr) {
+    private Node getXML(Document doc, String xpathStr) {
         // Create XPathFactory object
         XPathFactory xpathFactory = XPathFactory.newInstance();
 
