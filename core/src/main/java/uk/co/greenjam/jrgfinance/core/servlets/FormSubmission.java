@@ -14,20 +14,24 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import uk.co.greenjam.jrgfinance.core.services.PDFGenerator;
-import uk.co.greenjam.jrgfinance.core.servlets.model.AfData;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.UnknownHostException;
 
 
@@ -64,73 +68,68 @@ public class FormSubmission extends SlingAllMethodsServlet{
         String xmlString = dataXml.toString();
 
 
-        // Convert string to XML Element
-        Element xmlData = createXMLElement(xmlString);
-        if (xmlData == null){
-            // TODO write error
-            return;
-        }
-        else {
-            // Convert xml to afData pojo
-            AfData afData = convertXMLtoPojo(xmlData);
-            if(afData == null) {
-                // TODO write error
-                return;
-            }
-            else {
-                logger.info("Name = " + afData.getAfUnboundData().getData().getName());
-                logger.info("Email = " + afData.getAfUnboundData().getData().getEmailAddress());
-                logger.info("Message = " + afData.getAfUnboundData().getData().getMessage());
-                String inputXML = creatInputXML(afData);
-                pdfGenerator.generatePDF(CONTACT_TEMPLATE,inputXML,"");
-            }
+        Document doc = convertToXMLDoc(xmlString);
 
-        }
+        Node afUnboundData = getXML( doc,"/afData/afUnboundData/*");
 
+        pdfGenerator.generatePDF(CONTACT_TEMPLATE,convertNodeToString(afUnboundData),"");
 
     }
 
-    private String creatInputXML(AfData afData) {
-        return "<input>" +
-                "<name>" + afData.getAfUnboundData().getData().getName() +  "</name>" +
-                "<emailAddress>" + afData.getAfUnboundData().getData().getEmailAddress() +  "</emailAddress>" +
-                "<message>" + afData.getAfUnboundData().getData().getMessage() +  "</message>" +
-                "</input>";
-    }
-
-    private AfData convertXMLtoPojo(Element xmlData) {
-        JAXBContext jaxbContext = null;
-        AfData afData = null;
+    private Document convertToXMLDoc(String xmlString) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        Document doc = null;
 
         try {
-            jaxbContext = JAXBContext.newInstance(AfData.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            afData = (AfData) jaxbUnmarshaller.unmarshal(xmlData);
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return afData;
-
-    }
-
-    private Element createXMLElement(String xmlString) {
-        Element xmlData = null;
-        try {
-            xmlData =  DocumentBuilderFactory
-                    .newInstance()
-                    .newDocumentBuilder()
-                    .parse(new ByteArrayInputStream(xmlString.getBytes()))
-                    .getDocumentElement();
-        } catch (SAXException e) {
-            e.printStackTrace();
+            builder = factory.newDocumentBuilder();
+            factory = DocumentBuilderFactory.newInstance();
+            doc = builder.parse(new InputSource(new ByteArrayInputStream(xmlString.getBytes("utf-8"))));
         } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return xmlData;
+        return doc;
+    }
+
+    private static Node getXML(Document doc, String xpathStr) {
+        // Create XPathFactory object
+        XPathFactory xpathFactory = XPathFactory.newInstance();
+
+        // Create XPath object
+        XPath xpath = xpathFactory.newXPath();
+
+        Node node = null;
+        try {
+            XPathExpression expr =
+                    xpath.compile(xpathStr);
+            node = (Node) expr.evaluate(doc, XPathConstants.NODE);
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+
+        return node;
     }
 
 
+    public static String convertNodeToString(Node node){
+        Transformer t = null;
+        StringWriter sw = null;
+        try {
+            t = TransformerFactory.newInstance().newTransformer();
+            t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            sw = new StringWriter();
+            t.transform(new DOMSource(node), new StreamResult(sw));
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
+        return sw.toString();
+    }
 }
+
+
