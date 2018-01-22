@@ -45,6 +45,8 @@ public class FormSubmission extends SlingAllMethodsServlet{
     private static final long serialVersionUid = 1L;
     private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FormSubmission.class);
 
+    private final static String UNBOUNDDATA_XPATH = "\"/afData/afUnboundData/*\"";
+
     private final static String TEMPLATE_BASE = "/content/dam/formsanddocuments/jrg-finance/templates/";
     private final static String TEMPLATE_DATA = "/jcr:content/renditions/original/jcr:content";
 
@@ -70,7 +72,7 @@ public class FormSubmission extends SlingAllMethodsServlet{
 
         Document doc = convertToXMLDoc(xmlString);
 
-        Node afUnboundData = getXML( doc,"/afData/afUnboundData/*");
+        Node afUnboundData = getXML( doc, UNBOUNDDATA_XPATH);
 
         pdfGenerator.generatePDF(CONTACT_TEMPLATE,convertNodeToString(afUnboundData),"");
 
