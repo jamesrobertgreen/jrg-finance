@@ -21,7 +21,6 @@ import java.io.IOException;
 )
 public class PDFGeneratorImpl implements PDFGenerator {
 
-    private static final String PATH_TO_XDP = "/Users/Jim/contact.xdp";
     private static final String OUTPUT_FOLDER = "/Users/Jim";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
