@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/jrg-finance"
+        cq:lastModified="{Date}2018-01-22T22:19:00.635Z"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/jrg-finance/templates/page-content"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Customer Feedback"
+        sling:resourceType="jrg-finance/components/structure/page">
+        <header
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="jrg-finance/components/structure/header"/>
+        <content
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/parsys">
+            <aemform
+                    jcr:created="{Date}2017-01-01T15:21:04.097+01:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2017-01-01T09:18:51.038+01:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="fd/af/components/aemform"
+                    formRef="/content/dam/formsanddocuments/jrg-finance/customer-feedback"
+                    formType="adaptiveForm"
+                    submitType="inline"
+                    textIsRich="true"
+                    thankyouConfig="message"
+                    useiframe="false"/>
+        </content>
+    </jcr:content>
+</jcr:root>

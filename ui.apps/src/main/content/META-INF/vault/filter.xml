@@ -2,5 +2,6 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/jrg-finance"/>
     <filter root="/etc/designs/jrg-finance"/>
+    <filter root="/etc/designs/fd/af/jrg-finance"/>
     <filter root="/apps/sling" />
 </workspaceFilter>
