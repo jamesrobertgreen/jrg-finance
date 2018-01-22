@@ -34,7 +34,7 @@ import org.junit.Test;
 public class TestHelloWorldModel {
 
     //@Inject
-    private HelloWorldModel hello;
+//    private HelloWorldModel hello;
     
     private String slingId;
     
