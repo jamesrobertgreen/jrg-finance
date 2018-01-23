@@ -2,9 +2,7 @@
 <jcr:root xmlns:dam="http://www.day.com/dam/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:file">
     <jcr:content
-        dam:folderThumbnailPaths="[/content/dam/formsanddocuments/jrg-finance/templates/contact.xdp]"
-        jcr:primaryType="nt:unstructured"
-        bgcolor="{Long}-1"
-        height="{Long}200"
-        width="{Long}240"/>
+        jcr:lastModifiedBy="admin"
+        jcr:mixinTypes="[dam:Thumbnails]"
+        jcr:primaryType="nt:resource"/>
 </jcr:root>

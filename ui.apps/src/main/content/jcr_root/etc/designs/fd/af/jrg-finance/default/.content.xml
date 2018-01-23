@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2018-01-22T20:37:19.962Z"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/wcm/core/templates/designpage"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Adaptive Form Default Design"
+        sling:resourceType="wcm/core/components/designer">
+        <page jcr:primaryType="nt:unstructured">
+            <guideContainer jcr:primaryType="nt:unstructured">
+                <rootPanel jcr:primaryType="nt:unstructured"/>
+            </guideContainer>
+            <gridFluidLayout
+                jcr:primaryType="nt:unstructured"
+                components="[group:Adaptive Form]"/>
+            <defaultToolbarLayout
+                jcr:primaryType="nt:unstructured"
+                components=""/>
+            <mobileFixedToolbarLayout
+                jcr:primaryType="nt:unstructured"
+                components=""/>
+        </page>
+        <afStaticTemplatePage jcr:primaryType="nt:unstructured">
+            <guidecontainercell jcr:primaryType="nt:unstructured">
+                <rootPanel jcr:primaryType="nt:unstructured">
+                    <gridFluidLayout
+                        jcr:lastModified="{Date}2018-01-22T20:37:19.960Z"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        components="group:jrg-finance Form"/>
+                </rootPanel>
+            </guidecontainercell>
+        </afStaticTemplatePage>
+    </jcr:content>
+</jcr:root>

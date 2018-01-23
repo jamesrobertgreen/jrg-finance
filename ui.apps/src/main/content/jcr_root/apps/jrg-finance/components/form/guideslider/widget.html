@@ -1,0 +1,23 @@
+<sly data-sly-include="/libs/fd/af/components/guidesglobal.jsp" />
+<sly data-sly-use.guideConstants="com.adobe.aemds.guide.utils.GuideConstants" />
+<sly data-sly-use.guideField="com.adobe.aemds.guide.common.GuideTextBox" />
+
+<div class="${guideConstants.GUIDE_FIELD_WIDGET}" id="${guideField.id}${'_widget'}" name="${guideField.name}"
+    value="${guideField.value}" style="${guideField.widgetInlineStyles @ context='styleString'}" data-af-widgetname="sliderWidget">
+        <div class="slider-container">
+            <div class="hidden stage1">${properties.stage1}</div>
+            <div class="hidden stage2">${properties.stage2}</div>
+            <div class="hidden stage3">${properties.stage3}</div>
+            <div class="hidden stage4">${properties.stage4}</div>
+            <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-2"><div class="slider-percent">0%</div></div>
+            </div>
+            <div class="row slider-slider">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <input type="range" min="0" max="100" value="0" class="slider-input">
+                    </div>
+            </div>
+        </div>
+</div>

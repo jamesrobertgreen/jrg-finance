@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          jcr:primaryType="sling:OsgiConfig"
+          jdbc.driver.class="com.mysql.jdbc.Driver"
+          jdbc.connection.uri="jdbc:mysql://127.0.0.1:3306/jrgfinance"
+          jdbc.username="root"
+          jdbc.password="password"
+          pool.size="100"
+          datasource.name="jrgfinance.survey"/>
