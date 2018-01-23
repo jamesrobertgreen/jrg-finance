@@ -562,6 +562,12 @@
                 <artifactId>aemfd-client-sdk</artifactId>
                 <version>6.3.0</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/com.day.commons/day.commons.datasource.poolservice -->
+            <dependency>
+                <groupId>com.day.commons</groupId>
+                <artifactId>day.commons.datasource.poolservice</artifactId>
+                <version>1.0.10</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
