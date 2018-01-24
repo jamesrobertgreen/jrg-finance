@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.Map;
 
 
@@ -21,6 +21,15 @@ import java.util.Map;
 public class DBInitialiseService {
     @Reference
     private DataSourcePool source;
+
+    private static final String DB_COMMENT_TABLE = "commenttable";
+    private static final String DB_ADDITIONAL_META_TABLE = "additionalmetadatatable";
+    private static final String DB_DATA_TABLE = "data";
+    private static final String DB_METADATA_TABLE = "metadata";
+    private static final String DB_SURVEY_TABLE = "survey";
+
+
+    private static final String[] DB_TABLE = new String[] {"TABLE"};
 
     private static final String DB_INIT_FILE = "initMysqlDB.sql";
     private static final String DB_DATASOURCE = "jrgfinance.survey";
@@ -37,8 +46,11 @@ public class DBInitialiseService {
         Connection connection = getConnection();
         if (connection != null) {
             logger.info("Connection created...");
-            if (!tablesExist(connection)) {
+            if (!noTablesExist(connection)) {
                 createTables(connection);
+            }
+            else{
+                logger.info("NOT creating tables.");
             }
         }
     }
@@ -54,10 +66,44 @@ public class DBInitialiseService {
         return resource;
     }
 
-    private boolean tablesExist(Connection connection) {
+    private boolean noTablesExist(Connection connection) {
+        // Ensure there are NONE of the forms portal tables before we create them
+
+        try {
+            DatabaseMetaData metadata = connection.getMetaData();
+            ResultSet rs = metadata.getTables(null, null,DB_COMMENT_TABLE, DB_TABLE);
+            if (rs.next()){
+                logger.info("Comment table found");
+                return true;
+            }
+            rs = metadata.getTables(null, null,DB_ADDITIONAL_META_TABLE, DB_TABLE);
+            if (rs.next()){
+                logger.info("Additional meta table found");
+                return true;
+            }
+            rs = metadata.getTables(null, null,DB_DATA_TABLE, DB_TABLE);
+            if (rs.next()){
+                logger.info("Data table found");
+                return true;
+            }
+            rs = metadata.getTables(null, null,DB_METADATA_TABLE, DB_TABLE);
+            if (rs.next()){
+                logger.info("Metadata table found");
+                return true;
+            }
+            rs = metadata.getTables(null, null,DB_SURVEY_TABLE, DB_TABLE);
+            if (rs.next()){
+                logger.info("Survey table found");
+                return true;
+            }
+            // If NONE of the tables exist
+            return false;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         // Default to tables existing, so we don't overwrite tables if this method fails
-        boolean exists = true;
-        return exists;
+        return true;
     }
 
     private Map getDBConfig() {
