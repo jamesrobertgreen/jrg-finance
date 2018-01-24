@@ -29,8 +29,6 @@ public class DBInitialiseService {
     private static final String DB_ADDITIONAL_META_TABLE = "additionalmetadatatable";
     private static final String DB_DATA_TABLE = "data";
     private static final String DB_METADATA_TABLE = "metadata";
-    private static final String DB_SURVEY_TABLE = "survey";
-
 
     private static final String[] DB_TABLE = new String[]{"TABLE"};
 
@@ -51,23 +49,21 @@ public class DBInitialiseService {
             logger.info("Connection created...");
             if (!noTablesExist(connection)) {
                 logger.info("Creating tables");
-                createTables(connection);
+                InputStream is = getResource(DB_INIT_FILE);
+
+                if (is != null) {
+                    if (executeSQL(is,connection)){
+                        logger.info("CREATED forms portal tables");
+                    }
+                } else {
+                    logger.error("Failed to read SQL Commands");
+                }
             } else {
                 logger.info("NOT creating tables.");
             }
         }
     }
 
-    private void createTables(Connection connection) {
-        InputStream is = getResource(DB_INIT_FILE);
-
-        if (is != null) {
-            executeSQL(is, connection);
-        } else {
-            logger.error("Failed to read SQL Commands");
-        }
-
-    }
 
     private InputStream getResource(String dbInitFile) {
         return getClass().getClassLoader().getResourceAsStream(dbInitFile);
@@ -96,11 +92,6 @@ public class DBInitialiseService {
             rs = metadata.getTables(null, null, DB_METADATA_TABLE, DB_TABLE);
             if (rs.next()) {
                 logger.info("Metadata table found");
-                return true;
-            }
-            rs = metadata.getTables(null, null, DB_SURVEY_TABLE, DB_TABLE);
-            if (rs.next()) {
-                logger.info("Survey table found");
                 return true;
             }
             // If NONE of the tables exist
